@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APS_4.Model
+namespace APS_4.Model.Module
 {
-    public class Class1
+    public class OrderingAlgorithms
     {
+
     }
 }
