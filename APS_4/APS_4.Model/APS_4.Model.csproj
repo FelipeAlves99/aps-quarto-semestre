@@ -41,11 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\UserList.cs" />
-    <Compile Include="Interfaces\IOrderArray.cs" />
+    <Compile Include="Entities\OrderingEntity.cs" />
+    <Compile Include="Interfaces\IOrderingAlgorithms.cs" />
     <Compile Include="Module\OrderingAlgorithms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\OrderArray.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
