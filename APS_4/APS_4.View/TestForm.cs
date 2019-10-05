@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace APS_4.View
 {
-    public partial class Form1 : Form
+    public partial class TestForm : Form
     {
-        public Form1()
+        public TestForm()
         {
             InitializeComponent();
         }
