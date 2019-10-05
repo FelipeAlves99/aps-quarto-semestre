@@ -28,38 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbOrdering = new System.Windows.Forms.GroupBox();
             this.rbBubble = new System.Windows.Forms.RadioButton();
             this.rbInsertion = new System.Windows.Forms.RadioButton();
             this.rbmerge = new System.Windows.Forms.RadioButton();
             this.rbQuick = new System.Windows.Forms.RadioButton();
             this.rbSelection = new System.Windows.Forms.RadioButton();
             this.rbShell = new System.Windows.Forms.RadioButton();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbResult = new System.Windows.Forms.GroupBox();
             this.btnEfetuar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.lblTime = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblMoves = new System.Windows.Forms.Label();
             this.btnArray = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gbOrdering.SuspendLayout();
+            this.gbResult.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // gbOrdering
             // 
-            this.groupBox1.Controls.Add(this.rbShell);
-            this.groupBox1.Controls.Add(this.rbSelection);
-            this.groupBox1.Controls.Add(this.rbQuick);
-            this.groupBox1.Controls.Add(this.rbmerge);
-            this.groupBox1.Controls.Add(this.rbInsertion);
-            this.groupBox1.Controls.Add(this.rbBubble);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(238, 124);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ordenações";
+            this.gbOrdering.Controls.Add(this.rbShell);
+            this.gbOrdering.Controls.Add(this.rbSelection);
+            this.gbOrdering.Controls.Add(this.rbQuick);
+            this.gbOrdering.Controls.Add(this.rbmerge);
+            this.gbOrdering.Controls.Add(this.rbInsertion);
+            this.gbOrdering.Controls.Add(this.rbBubble);
+            this.gbOrdering.Location = new System.Drawing.Point(12, 12);
+            this.gbOrdering.Name = "gbOrdering";
+            this.gbOrdering.Size = new System.Drawing.Size(247, 124);
+            this.gbOrdering.TabIndex = 0;
+            this.gbOrdering.TabStop = false;
+            this.gbOrdering.Text = "Ordenações";
             // 
             // rbBubble
             // 
@@ -127,28 +127,29 @@
             this.rbShell.Text = "Shell Sort";
             this.rbShell.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // gbResult
             // 
-            this.groupBox2.Controls.Add(this.btnArray);
-            this.groupBox2.Controls.Add(this.lblMoves);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.lblTime);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 143);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(238, 127);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Resultado";
+            this.gbResult.Controls.Add(this.btnArray);
+            this.gbResult.Controls.Add(this.lblMoves);
+            this.gbResult.Controls.Add(this.label3);
+            this.gbResult.Controls.Add(this.lblTime);
+            this.gbResult.Controls.Add(this.label1);
+            this.gbResult.Location = new System.Drawing.Point(12, 143);
+            this.gbResult.Name = "gbResult";
+            this.gbResult.Size = new System.Drawing.Size(247, 127);
+            this.gbResult.TabIndex = 1;
+            this.gbResult.TabStop = false;
+            this.gbResult.Text = "Resultado";
             // 
             // btnEfetuar
             // 
             this.btnEfetuar.Location = new System.Drawing.Point(12, 276);
             this.btnEfetuar.Name = "btnEfetuar";
-            this.btnEfetuar.Size = new System.Drawing.Size(239, 23);
+            this.btnEfetuar.Size = new System.Drawing.Size(247, 23);
             this.btnEfetuar.TabIndex = 2;
             this.btnEfetuar.Text = "Efetuar Ordenação";
             this.btnEfetuar.UseVisualStyleBackColor = true;
+            this.btnEfetuar.Click += new System.EventHandler(this.BtnEfetuar_Click);
             // 
             // label1
             // 
@@ -194,35 +195,38 @@
             this.btnArray.TabIndex = 3;
             this.btnArray.Text = "Array Ordenado";
             this.btnArray.UseVisualStyleBackColor = true;
+            this.btnArray.Click += new System.EventHandler(this.BtnArray_Click);
             // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(263, 309);
+            this.ClientSize = new System.Drawing.Size(271, 309);
             this.Controls.Add(this.btnEfetuar);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbResult);
+            this.Controls.Add(this.gbOrdering);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TestForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tela de Teste";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gbOrdering.ResumeLayout(false);
+            this.gbOrdering.PerformLayout();
+            this.gbResult.ResumeLayout(false);
+            this.gbResult.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbOrdering;
         private System.Windows.Forms.RadioButton rbShell;
         private System.Windows.Forms.RadioButton rbSelection;
         private System.Windows.Forms.RadioButton rbQuick;
         private System.Windows.Forms.RadioButton rbmerge;
         private System.Windows.Forms.RadioButton rbInsertion;
         private System.Windows.Forms.RadioButton rbBubble;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbResult;
         private System.Windows.Forms.Button btnArray;
         private System.Windows.Forms.Label lblMoves;
         private System.Windows.Forms.Label label3;

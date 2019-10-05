@@ -28,6 +28,8 @@ namespace APS_4.Model.Module
 
         public OrderingEntity SelectionSort(OrderingEntity entity)
         {
+            entity.Moves = 0;
+            entity.Time = 0;
             var tempo = System.Diagnostics.Stopwatch.StartNew();
             int minimo, aux;
 

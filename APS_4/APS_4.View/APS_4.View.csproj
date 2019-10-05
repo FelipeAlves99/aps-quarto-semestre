@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\APS_4.Model\APS_4.Model.csproj">
+      <Project>{04037FD8-8B9E-4F0D-A551-BCD3C7DB1A1F}</Project>
+      <Name>APS_4.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
