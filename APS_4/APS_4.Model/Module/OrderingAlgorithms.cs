@@ -28,7 +28,33 @@ namespace APS_4.Model.Module
 
         public OrderingEntity SelectionSort(OrderingEntity entity)
         {
-            throw new NotImplementedException();
+            var tempo = System.Diagnostics.Stopwatch.StartNew();
+            int minimo, aux;
+
+            for (int i = 0; i < entity.NumberList.Length - 1; i++)
+            {
+                minimo = i;
+
+                for (int j = i; j < entity.NumberList.Length; j++)
+                {
+                    entity.Moves++;
+                    if (entity.NumberList[j] < entity.NumberList[minimo])
+                        minimo = j;
+                }
+
+                if (minimo != i)
+                {
+                    aux = entity.NumberList[minimo];
+                    entity.NumberList[minimo] = entity.NumberList[i];
+                    entity.NumberList[i] = aux;
+                }
+                entity.Moves++;
+            }
+
+            tempo.Stop();
+            entity.Time = tempo.ElapsedMilliseconds;
+
+            return entity;
         }
 
         public OrderingEntity ShellSort(OrderingEntity entity)
