@@ -7,7 +7,7 @@ namespace APS_4.Model.Interfaces
         OrderingEntity BubbleSort(OrderingEntity entity);
         OrderingEntity SelectionSort(OrderingEntity entity);
         OrderingEntity InsertionSort(OrderingEntity entity);
-        OrderingEntity MergeSort(OrderingEntity entity);
+        int MergeSort(int[] mainArray, int inicio, int fim);
         OrderingEntity QuickSort(OrderingEntity entity);
         OrderingEntity ShellSort(OrderingEntity entity);
     }

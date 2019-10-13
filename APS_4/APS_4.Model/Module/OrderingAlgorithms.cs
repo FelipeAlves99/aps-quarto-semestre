@@ -6,6 +6,13 @@ namespace APS_4.Model.Module
 {
     public class OrderingAlgorithms : IOrderingAlgorithms
     {
+        private OrderingEntity _entity = null;
+
+        public OrderingAlgorithms()
+        {
+            _entity = new OrderingEntity();
+        }
+
         public OrderingEntity BubbleSort(OrderingEntity entity)
         {
             throw new NotImplementedException();
@@ -16,9 +23,54 @@ namespace APS_4.Model.Module
             throw new NotImplementedException();
         }
 
-        public OrderingEntity MergeSort(OrderingEntity entity)
+        public int MergeSort(int[] mainArray, int inicio, int fim)
         {
-            throw new NotImplementedException();
+            int meio;
+            if (fim > inicio)
+            {
+                meio = (fim + inicio) / 2;
+                MergeSort(mainArray, inicio, meio);
+                MergeSort(mainArray, (meio + 1), fim);
+                Merge(mainArray, inicio, meio, fim);
+                return _entity.Moves;
+            }
+            return _entity.Moves;
+        }
+
+        private void Merge(int[] input, int esquerda, int meio, int direita)
+        {
+            int[] arrayEsquerda = new int[meio - esquerda + 1];
+            int[] arrayDireita = new int[direita - meio];
+
+            Array.Copy(input, esquerda, arrayEsquerda, 0, meio - esquerda + 1);
+            Array.Copy(input, meio + 1, arrayDireita, 0, direita - meio);
+
+            int i = 0;
+            int j = 0;
+            for (int k = esquerda; k < direita + 1; k++)
+            {
+                if (i == arrayEsquerda.Length)
+                {
+                    input[k] = arrayDireita[j];
+                    j++;
+                }
+                else if (j == arrayDireita.Length)
+                {
+                    input[k] = arrayEsquerda[i];
+                    i++;
+                }
+                else if (arrayEsquerda[i] <= arrayDireita[j])
+                {
+                    input[k] = arrayEsquerda[i];
+                    i++;
+                }
+                else
+                {
+                    input[k] = arrayDireita[j];
+                    j++;
+                }
+                _entity.Moves++;
+            }
         }
 
         public OrderingEntity QuickSort(OrderingEntity entity)
