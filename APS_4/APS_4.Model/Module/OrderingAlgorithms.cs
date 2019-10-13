@@ -23,50 +23,50 @@ namespace APS_4.Model.Module
             throw new NotImplementedException();
         }
 
-        public int MergeSort(int[] mainArray, int inicio, int fim)
+        public int MergeSort(int[] mainArray, int begin, int end)
         {
             int meio;
-            if (fim > inicio)
+            if (end > begin)
             {
-                meio = (fim + inicio) / 2;
-                MergeSort(mainArray, inicio, meio);
-                MergeSort(mainArray, (meio + 1), fim);
-                Merge(mainArray, inicio, meio, fim);
+                meio = (end + begin) / 2;
+                MergeSort(mainArray, begin, meio);
+                MergeSort(mainArray, (meio + 1), end);
+                Merge(mainArray, begin, meio, end);
                 return _entity.Moves;
             }
             return _entity.Moves;
         }
 
-        private void Merge(int[] input, int esquerda, int meio, int direita)
+        private void Merge(int[] input, int left, int middle, int right)
         {
-            int[] arrayEsquerda = new int[meio - esquerda + 1];
-            int[] arrayDireita = new int[direita - meio];
+            int[] leftArray = new int[middle - left + 1];
+            int[] rightArray = new int[right - middle];
 
-            Array.Copy(input, esquerda, arrayEsquerda, 0, meio - esquerda + 1);
-            Array.Copy(input, meio + 1, arrayDireita, 0, direita - meio);
+            Array.Copy(input, left, leftArray, 0, middle - left + 1);
+            Array.Copy(input, middle + 1, rightArray, 0, right - middle);
 
             int i = 0;
             int j = 0;
-            for (int k = esquerda; k < direita + 1; k++)
+            for (int k = left; k < right + 1; k++)
             {
-                if (i == arrayEsquerda.Length)
+                if (i == leftArray.Length)
                 {
-                    input[k] = arrayDireita[j];
+                    input[k] = rightArray[j];
                     j++;
                 }
-                else if (j == arrayDireita.Length)
+                else if (j == rightArray.Length)
                 {
-                    input[k] = arrayEsquerda[i];
+                    input[k] = leftArray[i];
                     i++;
                 }
-                else if (arrayEsquerda[i] <= arrayDireita[j])
+                else if (leftArray[i] <= rightArray[j])
                 {
-                    input[k] = arrayEsquerda[i];
+                    input[k] = leftArray[i];
                     i++;
                 }
                 else
                 {
-                    input[k] = arrayDireita[j];
+                    input[k] = rightArray[j];
                     j++;
                 }
                 _entity.Moves++;
