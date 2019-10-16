@@ -25,13 +25,13 @@ namespace APS_4.Model.Module
 
         public int MergeSort(int[] mainArray, int begin, int end)
         {
-            int meio;
+            int middle;
             if (end > begin)
             {
-                meio = (end + begin) / 2;
-                MergeSort(mainArray, begin, meio);
-                MergeSort(mainArray, (meio + 1), end);
-                Merge(mainArray, begin, meio, end);
+                middle = (end + begin) / 2;
+                MergeSort(mainArray, begin, middle);
+                MergeSort(mainArray, (middle + 1), end);
+                Merge(mainArray, begin, middle, end);
                 return _entity.Moves;
             }
             return _entity.Moves;
