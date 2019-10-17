@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APS_4.View.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace APS_4.View
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TestForm());
+            Application.Run(new frmConfiguration());
         }
     }
 }

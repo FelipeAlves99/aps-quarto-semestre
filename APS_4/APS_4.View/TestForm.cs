@@ -21,14 +21,14 @@ namespace APS_4.View
             InitializeComponent();
         }
 
-        private OrderingAlgorithms _ordering = new OrderingAlgorithms();
+        private OrderingAlgorithms _ordering = null;
         private OrderingEntity _entity = new OrderingEntity();
         private string _path = @"..\..\..\Array.txt";
 
         private void BtnEfetuar_Click(object sender, EventArgs e)
         {
             var radioButton = gbOrdering.Controls.OfType<RadioButton>().Where(r => r.Checked).FirstOrDefault();
-            _entity.NumberList = new int[20000];
+            _entity.NumberList = new int[10000];
 
             if (radioButton != null)
             {
@@ -41,12 +41,15 @@ namespace APS_4.View
                         break;
 
                     case "rbMerge":
+                        _ordering = new OrderingAlgorithms();
+                        MergeSort();
                         break;
 
                     case "rbQuick":
                         break;
 
                     case "rbSelection":
+                        _ordering = new OrderingAlgorithms();
                         SelectionSort();
                         break;
 
@@ -54,6 +57,19 @@ namespace APS_4.View
                         break;
                 }
             }
+        }
+
+        private void MergeSort()
+        {
+            BuildArray();
+            int inicio = 0, fim = _entity.NumberList.Length - 1;
+
+            var tempo = System.Diagnostics.Stopwatch.StartNew();
+            _entity.Moves = _ordering.MergeSort(_entity.NumberList, inicio, fim);
+            tempo.Stop();
+
+            _entity.Time = tempo.ElapsedMilliseconds;
+            ShowInfo();
         }
 
         private void SelectionSort()
@@ -66,8 +82,8 @@ namespace APS_4.View
         private void ShowInfo()
         {
             BuildOrderedFile(_entity.NumberList);
-            lblMoves.Text = _entity.Moves.ToString() + " ms";
-            lblTime.Text = _entity.Time.ToString();
+            lblMoves.Text = _entity.Moves.ToString();
+            lblTime.Text = _entity.Time.ToString() + " ms";
         }
 
         private void BuildOrderedFile(int[] numberList)
@@ -86,7 +102,7 @@ namespace APS_4.View
 
             for (int i = 0; i < _entity.NumberList.Length; i++)
             {
-                var randomNumber = random.Next();
+                var randomNumber = random.Next(1000);
                 _entity.NumberList[i] = randomNumber;
             }
         }
