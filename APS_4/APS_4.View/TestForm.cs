@@ -1,15 +1,10 @@
 ﻿using APS_4.Model.Entities;
 using APS_4.Model.Module;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace APS_4.View
@@ -28,20 +23,22 @@ namespace APS_4.View
         private void BtnEfetuar_Click(object sender, EventArgs e)
         {
             var radioButton = gbOrdering.Controls.OfType<RadioButton>().Where(r => r.Checked).FirstOrDefault();
-            _entity.NumberList = new int[10000];
+            _entity.NumberList = new int[10];
 
             if (radioButton != null)
             {
+                _ordering = new OrderingAlgorithms();
                 switch (radioButton.Name)
                 {
-                    case "rbBubble":
+                    case "rbBubble":                        
+                        BubbleSort();
                         break;
 
-                    case "rbInsertion":
+                    case "rbInsertion":                        
+                        InsertionSort();
                         break;
 
-                    case "rbMerge":
-                        _ordering = new OrderingAlgorithms();
+                    case "rbMerge":                       
                         MergeSort();
                         break;
 
@@ -49,7 +46,6 @@ namespace APS_4.View
                         break;
 
                     case "rbSelection":
-                        _ordering = new OrderingAlgorithms();
                         SelectionSort();
                         break;
 
@@ -59,16 +55,30 @@ namespace APS_4.View
             }
         }
 
+        private void InsertionSort()
+        {
+            BuildArray();
+            _entity = _ordering.InsertionSort(_entity);
+            ShowInfo();
+        }
+
+        private void BubbleSort()
+        {
+            BuildArray();
+            _entity = _ordering.BubbleSort(_entity);
+            ShowInfo();
+        }
+
         private void MergeSort()
         {
             BuildArray();
-            int inicio = 0, fim = _entity.NumberList.Length - 1;
+            int start = 0, end = _entity.NumberList.Length - 1;
 
-            var tempo = System.Diagnostics.Stopwatch.StartNew();
-            _entity.Moves = _ordering.MergeSort(_entity.NumberList, inicio, fim);
-            tempo.Stop();
+            var time = System.Diagnostics.Stopwatch.StartNew();
+            _entity.Moves = _ordering.MergeSort(_entity.NumberList, start, end);
+            time.Stop();
 
-            _entity.Time = tempo.ElapsedMilliseconds;
+            _entity.Time = time.ElapsedMilliseconds;
             ShowInfo();
         }
 

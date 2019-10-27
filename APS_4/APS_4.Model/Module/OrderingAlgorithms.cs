@@ -1,6 +1,7 @@
 ﻿using APS_4.Model.Entities;
 using APS_4.Model.Interfaces;
 using System;
+using System.Diagnostics;
 
 namespace APS_4.Model.Module
 {
@@ -15,12 +16,71 @@ namespace APS_4.Model.Module
 
         public OrderingEntity BubbleSort(OrderingEntity entity)
         {
-            throw new NotImplementedException();
+            var time = Stopwatch.StartNew();
+
+            #region Bubble
+
+            int arraySize = entity.NumberList.Length;
+
+            for (int i = arraySize - 1; i >= 1; i--)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    _entity.Moves++;
+                    if (entity.NumberList[j] > entity.NumberList[j + 1])
+                    {
+                        int aux = entity.NumberList[j];
+                        entity.NumberList[j] = entity.NumberList[j + 1];
+                        entity.NumberList[j + 1] = aux;
+                    }
+                }
+            }
+
+            #endregion
+
+            time.Stop();
+            _entity.NumberList = entity.NumberList;
+            _entity.Time = time.ElapsedMilliseconds;
+            return _entity;
         }
 
         public OrderingEntity InsertionSort(OrderingEntity entity)
         {
-            throw new NotImplementedException();
+            var time = Stopwatch.StartNew();
+            
+            #region Insertion
+
+            if (entity.NumberList.Length <= 1)
+            {
+                entity.Moves = 0;
+                entity.Time = time.ElapsedMilliseconds;
+                return entity;
+            }
+
+            int j, key;
+
+            for (int i = 1; i < entity.NumberList.Length; i++)
+            {
+                j = i - 1;
+                key = entity.NumberList[i];
+                entity.Moves++;
+
+                while (j >= 0 && key < entity.NumberList[j])
+                {
+                    entity.NumberList[j + 1] = entity.NumberList[j];
+                    j--;
+                    entity.NumberList[j + 1] = key;
+                    _entity.Moves++;
+                }
+            }
+
+            #endregion
+
+            time.Stop();
+            _entity.Time = time.ElapsedMilliseconds;
+            _entity.NumberList = entity.NumberList;
+
+            return _entity;
         }
 
         public int MergeSort(int[] mainArray, int begin, int end)
@@ -80,35 +140,34 @@ namespace APS_4.Model.Module
 
         public OrderingEntity SelectionSort(OrderingEntity entity)
         {
-            entity.Moves = 0;
-            entity.Time = 0;
-            var tempo = System.Diagnostics.Stopwatch.StartNew();
-            int minimo, aux;
+            var time = Stopwatch.StartNew();
+            int minimum, aux;
 
             for (int i = 0; i < entity.NumberList.Length - 1; i++)
             {
-                minimo = i;
+                minimum = i;
 
                 for (int j = i; j < entity.NumberList.Length; j++)
                 {
-                    entity.Moves++;
-                    if (entity.NumberList[j] < entity.NumberList[minimo])
-                        minimo = j;
+                    _entity.Moves++;
+                    if (entity.NumberList[j] < entity.NumberList[minimum])
+                        minimum = j;
                 }
 
-                if (minimo != i)
+                if (minimum != i)
                 {
-                    aux = entity.NumberList[minimo];
-                    entity.NumberList[minimo] = entity.NumberList[i];
+                    aux = entity.NumberList[minimum];
+                    entity.NumberList[minimum] = entity.NumberList[i];
                     entity.NumberList[i] = aux;
+                    _entity.Moves++;
                 }
-                entity.Moves++;
             }
 
-            tempo.Stop();
-            entity.Time = tempo.ElapsedMilliseconds;
+            time.Stop();
+            _entity.Time = time.ElapsedMilliseconds;
+            _entity.NumberList = entity.NumberList;
 
-            return entity;
+            return _entity;
         }
 
         public OrderingEntity ShellSort(OrderingEntity entity)
