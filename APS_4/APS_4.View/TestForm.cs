@@ -50,9 +50,17 @@ namespace APS_4.View
                         break;
 
                     case "rbShell":
+                        ShellSort();
                         break;
                 }
             }
+        }
+
+        private void ShellSort()
+        {
+            BuildArray();
+            _entity = _ordering.ShellSort(_entity);
+            ShowInfo();
         }
 
         private void InsertionSort()

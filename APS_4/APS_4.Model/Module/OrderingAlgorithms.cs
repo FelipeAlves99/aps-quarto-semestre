@@ -143,6 +143,8 @@ namespace APS_4.Model.Module
             var time = Stopwatch.StartNew();
             int minimum, aux;
 
+            #region Selection
+
             for (int i = 0; i < entity.NumberList.Length - 1; i++)
             {
                 minimum = i;
@@ -163,6 +165,8 @@ namespace APS_4.Model.Module
                 }
             }
 
+            #endregion
+
             time.Stop();
             _entity.Time = time.ElapsedMilliseconds;
             _entity.NumberList = entity.NumberList;
@@ -172,7 +176,46 @@ namespace APS_4.Model.Module
 
         public OrderingEntity ShellSort(OrderingEntity entity)
         {
-            throw new NotImplementedException();
+            var time = Stopwatch.StartNew();
+
+            #region Shell
+
+            int arraySize = entity.NumberList.Length;
+            int j, value;
+            int gap = 1;
+
+            do
+            {
+                gap = 3 * gap + 1;
+            } while (gap < arraySize);
+
+            do
+            {
+                gap /= 3;
+                for (int i = gap; i < arraySize; i++)
+                {
+                    value = entity.NumberList[i];
+                    j = i - gap;
+
+                    while (j >= 0 && value < entity.NumberList[j])
+                    {
+                        entity.NumberList[j + gap] = entity.NumberList[j];
+                        j -= gap;
+                        _entity.Moves++;
+                    }
+                    entity.NumberList[j + gap] = value;
+                    _entity.Moves++;
+                }
+                _entity.Moves++;
+            } while (gap > 1);
+
+            #endregion
+
+            time.Stop();
+            _entity.Time = time.ElapsedMilliseconds;
+            _entity.NumberList = entity.NumberList;
+
+            return _entity;
         }
     }
 }
