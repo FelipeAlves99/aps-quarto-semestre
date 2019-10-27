@@ -43,6 +43,7 @@ namespace APS_4.View
                         break;
 
                     case "rbQuick":
+                        QuickSort();
                         break;
 
                     case "rbSelection":
@@ -54,6 +55,19 @@ namespace APS_4.View
                         break;
                 }
             }
+        }
+
+        private void QuickSort()
+        {
+            BuildArray();
+            int start = 0, end = _entity.NumberList.Length - 1;
+
+            var time = Stopwatch.StartNew();
+            _entity.Moves = _ordering.QuickSort(_entity.NumberList, start, end);
+            time.Stop();
+
+            _entity.Time = time.ElapsedMilliseconds;
+            ShowInfo();
         }
 
         private void ShellSort()
@@ -82,7 +96,7 @@ namespace APS_4.View
             BuildArray();
             int start = 0, end = _entity.NumberList.Length - 1;
 
-            var time = System.Diagnostics.Stopwatch.StartNew();
+            var time = Stopwatch.StartNew();
             _entity.Moves = _ordering.MergeSort(_entity.NumberList, start, end);
             time.Stop();
 

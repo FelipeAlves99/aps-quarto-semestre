@@ -133,9 +133,44 @@ namespace APS_4.Model.Module
             }
         }
 
-        public OrderingEntity QuickSort(OrderingEntity entity)
+        public int QuickSort(int[] mainArray, int begin, int end)
         {
-            throw new NotImplementedException();
+            int low, high, middle, pivot, aux;
+            low = begin;
+            high = end;
+            middle = (int)((low + high) / 2);
+
+            pivot = mainArray[middle];
+
+            while (low <= high)
+            {
+                while (mainArray[low] < pivot)
+                    low++;
+                while (mainArray[high] > pivot)
+                    high--;
+                if (low < high)
+                {
+                    aux = mainArray[low];
+                    mainArray[low++] = mainArray[high];
+                    mainArray[high--] = aux;
+                    _entity.Moves++;
+                }
+                else
+                {
+                    if (low == high)
+                    {
+                        low++;
+                        high--;
+                    }
+                }
+            }
+
+            if (high > begin)
+                QuickSort(mainArray, begin, high);
+            if (low < end)
+                QuickSort(mainArray, low, end);
+
+            return _entity.Moves;
         }
 
         public OrderingEntity SelectionSort(OrderingEntity entity)
