@@ -17,7 +17,7 @@ namespace APS_4.View
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmConfiguration());
+            Application.Run(new TestForm());
         }
     }
 }
