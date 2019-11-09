@@ -92,6 +92,7 @@ namespace APS_4.View.Forms
                         MessageBox.Show("Por favor, informe a quantidade de itens.", "Falta de informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     }
+                    FillArray((int)nudQuantity.Value);
 
                     break;
 
@@ -103,8 +104,9 @@ namespace APS_4.View.Forms
                     }
 
                     nudQuantity.Maximum = 100;
-                    frmUserInput userInput = new frmUserInput();
+                    frmUserInput userInput = new frmUserInput((int)nudQuantity.Value);                    
                     userInput.ShowDialog();
+                    _entity.NumberList = userInput.GetArray();
                     break;
 
                 case select:
@@ -208,6 +210,17 @@ namespace APS_4.View.Forms
                 ChangeToExit();
             else
                 ChangeToClear();
+        }
+
+        private void FillArray(int value)
+        {
+            Random randomNumber = new Random();
+            _entity.NumberList = new int[value];
+
+            for (int i = 0; i < _entity.NumberList.Length; i++)
+            {
+                _entity.NumberList[i] = randomNumber.Next();
+            }
         }
     }
 }
