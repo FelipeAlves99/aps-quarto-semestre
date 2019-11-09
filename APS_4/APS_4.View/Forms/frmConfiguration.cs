@@ -1,13 +1,7 @@
 ﻿using APS_4.Model.Entities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace APS_4.View.Forms
@@ -37,10 +31,10 @@ namespace APS_4.View.Forms
         private void ConfigurationExternalFileOption()
         {
             if (rbExternalFile.Checked)
-                txtQuantity.Enabled = false;
+                nudQuantity.Enabled = false;
 
             else
-                txtQuantity.Enabled = true;
+                nudQuantity.Enabled = true;
 
             btnStart.Text = select;
         }
@@ -52,6 +46,7 @@ namespace APS_4.View.Forms
         private void RbManual_CheckedChanged(object sender, EventArgs e)
         {
             ConfigurationManualOption();
+            nudQuantity.Maximum = 100;
         }
 
         private void ConfigurationManualOption()
@@ -59,7 +54,7 @@ namespace APS_4.View.Forms
             btnStart.Text = fill;
             DisableLabels();
             ChangeToExit();
-            txtQuantity.Text = "";
+            nudQuantity.Value = 0;
         }
 
         #endregion
@@ -69,6 +64,7 @@ namespace APS_4.View.Forms
         private void RbAutomatic_CheckedChanged(object sender, EventArgs e)
         {
             ConfigurationAutomaticOption();
+            nudQuantity.Maximum = 1000000;
         }
 
         private void ConfigurationAutomaticOption()
@@ -76,7 +72,7 @@ namespace APS_4.View.Forms
             btnStart.Text = start;
             DisableLabels();
             ChangeToExit();
-            txtQuantity.Text = "";
+            nudQuantity.Value = 0;
         }
 
         #endregion
@@ -91,9 +87,24 @@ namespace APS_4.View.Forms
             switch (btnStart.Text)
             {
                 case start:
+                    if (nudQuantity.Value <= 0)
+                    {
+                        MessageBox.Show("Por favor, informe a quantidade de itens.", "Falta de informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
+
                     break;
 
                 case fill:
+                    if (nudQuantity.Value <= 0)
+                    {
+                        MessageBox.Show("Por favor, informe a quantidade de itens.", "Falta de informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
+
+                    nudQuantity.Maximum = 100;
+                    frmUserInput userInput = new frmUserInput();
+                    userInput.ShowDialog();
                     break;
 
                 case select:
@@ -174,6 +185,7 @@ namespace APS_4.View.Forms
             switch (btnClean.Text)
             {
                 case clear:
+                    rbAutomatic.Checked = true;
                     break;
 
                 case close:
@@ -190,9 +202,9 @@ namespace APS_4.View.Forms
 
         #endregion
 
-        private void TxtQuantity_TextChanged(object sender, EventArgs e)
+        private void nudQuantity_ValueChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+            if (nudQuantity.Value <= 0)
                 ChangeToExit();
             else
                 ChangeToClear();

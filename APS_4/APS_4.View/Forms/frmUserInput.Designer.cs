@@ -40,7 +40,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(18, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(226, 20);
+            this.label1.Size = new System.Drawing.Size(225, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "0/0";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -48,7 +48,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 42);
+            this.label2.Location = new System.Drawing.Point(18, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(116, 16);
             this.label2.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(19, 63);
+            this.textBox1.Location = new System.Drawing.Point(18, 63);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(225, 21);
@@ -85,10 +85,10 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(16, 95);
+            this.button3.Location = new System.Drawing.Point(18, 92);
             this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(229, 28);
+            this.button3.Size = new System.Drawing.Size(225, 28);
             this.button3.TabIndex = 5;
             this.button3.Text = "Preencher Automaticamente";
             this.button3.UseVisualStyleBackColor = true;
@@ -97,6 +97,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Snow;
             this.ClientSize = new System.Drawing.Size(261, 192);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
