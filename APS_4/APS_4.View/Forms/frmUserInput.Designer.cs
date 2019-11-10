@@ -114,6 +114,7 @@
             this.MaximizeBox = false;
             this.Name = "frmUserInput";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Entrada de dados";
             this.ResumeLayout(false);
             this.PerformLayout();

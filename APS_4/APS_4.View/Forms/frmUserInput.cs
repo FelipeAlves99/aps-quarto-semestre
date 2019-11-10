@@ -29,8 +29,8 @@ namespace APS_4.View.Forms
             {                
                 EnableReset(true);
                 _mainArray[_arrayCount] = value;
-                PrepareForm(_mainArray.Length, _arrayCount);
                 _arrayCount++;
+                PrepareForm(_mainArray.Length, _arrayCount);
             }
             else
                 MessageBox.Show("Por favor, insira um valor numérico.", "Entrada incorreta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -57,13 +57,14 @@ namespace APS_4.View.Forms
                 EnableReset(false);
                 PrepareForm(_mainArray.Length, 0);
                 txtUserInput.Text = "";
+                _arrayCount = 0;
             }
         }
 
         private void BtnAutoFill_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult =
-                MessageBox.Show($"Deseja que os {_arraySize - _arrayCount} últimos números sejam preenchidos automaticamente?", "Preenchimento automático", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                MessageBox.Show($"Deseja que o(s) {_arraySize - _arrayCount} último(s) número(s) seja(m) preenchido(s) automaticamente?", "Preenchimento automático", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 FillArray();
@@ -75,7 +76,7 @@ namespace APS_4.View.Forms
         {
             Random randomNumber = new Random();
 
-            for (int i = _arrayCount + 1; i < _mainArray.Length; i++)
+            for (int i = _arrayCount; i < _mainArray.Length; i++)
                 _mainArray[i] = randomNumber.Next(0, 1000000);
         }
     }
