@@ -8,11 +8,12 @@ namespace APS_4.View.Forms
 {
     public partial class frmConfiguration : Form
     {
-        private const string start = "Iniciar";
+        private const string create = "Criar";
         private const string fill = "Preencher";
         private const string select = "Selecionar";
         private const string clear = "Limpar";
         private const string close = "Fechar";
+        private const string compare = "Comparar";
 
         private OrderingEntity _entity = new OrderingEntity();
 
@@ -69,7 +70,7 @@ namespace APS_4.View.Forms
 
         private void ConfigurationAutomaticOption()
         {
-            btnStart.Text = start;
+            btnStart.Text = create;
             DisableLabels();
             ChangeToExit();
             nudQuantity.Value = 0;
@@ -86,13 +87,14 @@ namespace APS_4.View.Forms
 
             switch (btnStart.Text)
             {
-                case start:
+                case create:
                     if (nudQuantity.Value <= 0)
                     {
                         MessageBox.Show("Por favor, informe a quantidade de itens.", "Falta de informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     }
                     FillArray((int)nudQuantity.Value);
+                    btnStart.Text = compare;
 
                     break;
 
@@ -104,9 +106,10 @@ namespace APS_4.View.Forms
                     }
 
                     nudQuantity.Maximum = 100;
-                    frmUserInput userInput = new frmUserInput((int)nudQuantity.Value);                    
+                    frmUserInput userInput = new frmUserInput((int)nudQuantity.Value);
                     userInput.ShowDialog();
                     _entity.NumberList = userInput.GetArray();
+                    btnStart.Text = compare;
                     break;
 
                 case select:
@@ -130,20 +133,26 @@ namespace APS_4.View.Forms
                                 {
                                     EnableLabels();
                                     lblFileName.Text = openFile.SafeFileName;
-                                    btnStart.Text = start;
+                                    btnStart.Text = compare;
                                     ChangeToClear();
                                 }
                             }
                         }
                     }
                     break;
+
+                case compare:
+                    frmCompareOrderings compareOrderings = new frmCompareOrderings(_entity);
+                    this.Visible = false;
+                    compareOrderings.Show();
+                    break;
             }
         }
 
         private bool BuildArrayExternalFile(string fileContent)
-        {            
+        {
             using (StringReader reader = new StringReader(fileContent))
-            {                
+            {
                 int i = 0;
                 string line;
                 while ((line = reader.ReadLine()) != null)
@@ -188,6 +197,7 @@ namespace APS_4.View.Forms
             {
                 case clear:
                     rbAutomatic.Checked = true;
+                    nudQuantity.Value = 0;
                     break;
 
                 case close:
@@ -219,7 +229,7 @@ namespace APS_4.View.Forms
 
             for (int i = 0; i < _entity.NumberList.Length; i++)
             {
-                _entity.NumberList[i] = randomNumber.Next();
+                _entity.NumberList[i] = randomNumber.Next(0, 10000000);
             }
         }
     }
