@@ -4,11 +4,11 @@ namespace APS_4.Model.Interfaces
 {
     public interface IOrderingAlgorithms
     {
-        OrderingEntity BubbleSort(OrderingEntity entity);
-        OrderingEntity SelectionSort(OrderingEntity entity);
-        OrderingEntity InsertionSort(OrderingEntity entity);
+        OrderingEntity BubbleSort(int[] mainArray);
+        OrderingEntity SelectionSort(int[] mainArray);
+        OrderingEntity InsertionSort(int[] mainArray);
         int MergeSort(int[] mainArray, int begin, int end);
         int QuickSort(int[] mainArray, int begin, int end);
-        OrderingEntity ShellSort(OrderingEntity entity);
+        OrderingEntity ShellSort(int[] mainArray);
     }
 }

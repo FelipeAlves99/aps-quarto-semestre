@@ -182,6 +182,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configuração";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmConfiguration_FormClosed);
             this.gbEntryWays.ResumeLayout(false);
             this.gbEntryWays.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).EndInit();

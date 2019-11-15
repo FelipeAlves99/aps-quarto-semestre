@@ -232,5 +232,10 @@ namespace APS_4.View.Forms
                 _entity.NumberList[i] = randomNumber.Next(0, 10000000);
             }
         }
+
+        private void FrmConfiguration_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
