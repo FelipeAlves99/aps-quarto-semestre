@@ -2,13 +2,10 @@
 using APS_4.Model.Module;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,8 +14,22 @@ namespace APS_4.View.Forms
 {
     public partial class frmCompareOrderings : Form
     {
-        private OrderingEntity _orderingEntity;
         private OrderingAlgorithms _ordering = new OrderingAlgorithms();
+        private int[] _notOrdered;
+
+        public frmCompareOrderings(OrderingEntity entity)
+        {
+            InitializeComponent();
+
+            _notOrdered = new int[entity.NumberList.Length];
+            entity.NumberList.CopyTo(_notOrdered, 0);
+        }
+
+        private void FrmCompareOrderings_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            frmConfiguration configuration = new frmConfiguration();
+            configuration.Visible = true;
+        }
 
         delegate void SetControlValueCallback(Control oControl, string propName, object propValue);
 
@@ -42,94 +53,137 @@ namespace APS_4.View.Forms
             }
         }
 
-        public frmCompareOrderings(OrderingEntity entity)
-        {
-            InitializeComponent();
-            _orderingEntity = entity;
-        }
-
-        private void FrmCompareOrderings_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            frmConfiguration configuration = new frmConfiguration();
-            configuration.Visible = true;
-        }
-
         private void BtnBack_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void BtnInit_Click(object sender, EventArgs e)
+        private async void BtnInit_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Dependendo da quantidade de itens a serem ordenados, esse processo poderá demorar a ser efetuado",
                 "Efetuar ordenação", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
             if (result == DialogResult.OK)
             {
-                BubbleSort();
-                InsertionSort();
-                SelectionSort();
-                ShellSort();
-                MergeSort();
-                QuickSort();
+                var mergeTask = Task.Run(() => MergeSort());
+                var quickTask = Task.Run(() => QuickSort());
+                var bubbleTask = Task.Run(() => BubbleSort());
+                var insertinoTask = Task.Run(() => InsertionSort());
+                var selectionTask = Task.Run(() => SelectionSort());
+                var shellTask = Task.Run(() => ShellSort());
+
+                await Task.WhenAll(mergeTask, quickTask, bubbleTask, insertinoTask, selectionTask, shellTask);
+                CompareResult();
             }
         }
 
-        #region QuickSort methods
-
-        private void QuickSort()
+        private void CompareResult()
         {
-            int start = 0, end = _orderingEntity.NumberList.Length - 1;
+            List<BoxInfo> boxInfos = new List<BoxInfo>();
+
+            boxInfos.Add(new BoxInfo(lblBubbleMoves.Text, lblBubbleTime.Text, lblBubbleMoves, lblBubbleTime));
+            boxInfos.Add(new BoxInfo(lblShellMoves.Text, lblShellTime.Text, lblShellMoves, lblShellTime));
+            boxInfos.Add(new BoxInfo(lblSelectionMoves.Text, lblSelectionTime.Text, lblSelectionMoves, lblSelectionTime));
+            boxInfos.Add(new BoxInfo(lblInsertionMoves.Text, lblInsertionTime.Text, lblInsertionMoves, lblInsertionTime));
+            boxInfos.Add(new BoxInfo(lblQuickMoves.Text, lblQuickTime.Text, lblQuickMoves, lblQuickTime));
+            boxInfos.Add(new BoxInfo(lblMergeMoves.Text, lblMergeTime.Text, lblMergeMoves, lblMergeTime));
+
+            var bestMoves = boxInfos.OrderBy(x => x.Moves).First();
+            var bestTime = boxInfos.OrderBy(x => x.Time).First();
+
+            ChangeForeColor(bestMoves.MoveName);
+            ChangeForeColor(bestTime.TimeName);
+        }
+
+        private void ChangeForeColor(Control oControl)
+            => oControl.ForeColor = System.Drawing.Color.ForestGreen;
+
+
+        #region Ordering methods
+
+        private async void QuickSort()
+        {
+            var entity = new OrderingEntity();
+            entity.NumberList = new int[_notOrdered.Length];
+            _notOrdered.CopyTo(entity.NumberList, 0);
+
+
+            int start = 0, end = entity.NumberList.Length - 1;
 
             var time = Stopwatch.StartNew();
-            _orderingEntity.Moves = _ordering.QuickSort(_orderingEntity.NumberList, start, end);
+            await Task.Run(() => entity.Moves = _ordering.QuickSort(entity.NumberList, start, end));
             time.Stop();
 
-            _orderingEntity.Time = time.ElapsedMilliseconds;
-            AlterLabelsInfo(lblQuickMoves, "text", _orderingEntity.Moves.ToString());
-            AlterLabelsInfo(lblQuickTime, "text", _orderingEntity.Time.ToString() + " ms");
+            entity.Time = time.ElapsedMilliseconds;
+            AlterLabelsInfo(lblQuickMoves, "text", entity.Moves.ToString());
+            AlterLabelsInfo(lblQuickTime, "text", entity.Time.ToString() + " ms");
+        }
+
+        private async void MergeSort()
+        {
+            var entity = new OrderingEntity();
+            entity.NumberList = new int[_notOrdered.Length];
+            _notOrdered.CopyTo(entity.NumberList, 0);
+
+            int start = 0, end = entity.NumberList.Length - 1;
+
+            var time = Stopwatch.StartNew();
+            await Task.Run(() => entity.Moves = _ordering.MergeSort(entity.NumberList, start, end));
+            time.Stop();
+
+            entity.Time = time.ElapsedMilliseconds;
+            AlterLabelsInfo(lblMergeMoves, "text", entity.Moves.ToString());
+            AlterLabelsInfo(lblMergeTime, "text", entity.Time.ToString() + " ms");
+        }
+
+        private async void ShellSort()
+        {
+            var entity = _ordering.ShellSort(_notOrdered);
+            AlterLabelsInfo(lblShellMoves, "text", entity.Moves.ToString());
+            AlterLabelsInfo(lblShellTime, "text", entity.Time.ToString() + " ms");
+        }
+
+        private async void SelectionSort()
+        {
+            var entity = _ordering.SelectionSort(_notOrdered);
+            AlterLabelsInfo(lblSelectionMoves, "text", entity.Moves.ToString());
+            AlterLabelsInfo(lblSelectionTime, "text", entity.Time.ToString() + " ms");
+        }
+
+        private async void InsertionSort()
+        {
+            var entity = _ordering.InsertionSort(_notOrdered);
+            AlterLabelsInfo(lblInsertionMoves, "text", entity.Moves.ToString());
+            AlterLabelsInfo(lblInsertionTime, "text", entity.Time.ToString() + " ms");
+        }
+
+        private async void BubbleSort()
+        {
+            var entity = _ordering.BubbleSort(_notOrdered);
+            AlterLabelsInfo(lblBubbleMoves, "text", entity.Moves.ToString());
+            AlterLabelsInfo(lblBubbleTime, "text", entity.Time.ToString() + " ms");
         }
 
         #endregion
-        private void MergeSort()
-        {
-            int start = 0, end = _orderingEntity.NumberList.Length - 1;
-
-            var time = Stopwatch.StartNew();
-            _orderingEntity.Moves = _ordering.MergeSort(_orderingEntity.NumberList, start, end);
-            time.Stop();
-
-            _orderingEntity.Time = time.ElapsedMilliseconds;
-            AlterLabelsInfo(lblMergeMoves, "text", _orderingEntity.Moves.ToString());
-            AlterLabelsInfo(lblMergeTime, "text", _orderingEntity.Time.ToString() + " ms");
-        }
-
-        private void ShellSort()
-        {
-            _ordering.ShellSort(_orderingEntity);
-            AlterLabelsInfo(lblShellMoves, "text", _orderingEntity.Moves.ToString());
-            AlterLabelsInfo(lblShellTime, "text", _orderingEntity.Time.ToString() + " ms");
-        }
-
-        private void SelectionSort()
-        {
-            _ordering.SelectionSort(_orderingEntity);
-            AlterLabelsInfo(lblSelectionMoves, "text", _orderingEntity.Moves.ToString());
-            AlterLabelsInfo(lblSelectionTime, "text", _orderingEntity.Time.ToString() + " ms");
-        }
-
-        private void InsertionSort()
-        {
-            _ordering.InsertionSort(_orderingEntity);
-            AlterLabelsInfo(lblInsertionMoves, "text", _orderingEntity.Moves.ToString());
-            AlterLabelsInfo(lblInsertionTime, "text", _orderingEntity.Time.ToString() + " ms");
-        }
-
-        private void BubbleSort()
-        {
-            _ordering.BubbleSort(_orderingEntity);
-            AlterLabelsInfo(lblBubbleMoves, "text", _orderingEntity.Moves.ToString());
-            AlterLabelsInfo(lblBubbleTime, "text", _orderingEntity.Time.ToString() + " ms");
-        }
     }
+
+    class BoxInfo
+    {
+        public BoxInfo(string moves, string time, Control moveName, Control timeName)
+        {
+            time = Regex.Match(time, @"\d+").Value;
+            Moves = Convert.ToInt64(moves);
+            Time = Convert.ToInt64(time);
+            MoveName = moveName;
+            TimeName = timeName;
+        }
+
+        public long Moves { get; private set; }
+        public long Time { get; private set; }
+        public Control MoveName { get; private set; }
+        public Control TimeName { get; private set; }
+    }
+
 }
+
+
