@@ -370,7 +370,7 @@
             // 
             // btnInit
             // 
-            this.btnInit.Location = new System.Drawing.Point(564, 259);
+            this.btnInit.Location = new System.Drawing.Point(563, 250);
             this.btnInit.Name = "btnInit";
             this.btnInit.Size = new System.Drawing.Size(75, 23);
             this.btnInit.TabIndex = 1;
@@ -380,7 +380,7 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(12, 259);
+            this.btnBack.Location = new System.Drawing.Point(12, 250);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
             this.btnBack.TabIndex = 2;
@@ -390,18 +390,20 @@
             // 
             // btnViewArray
             // 
-            this.btnViewArray.Location = new System.Drawing.Point(93, 259);
+            this.btnViewArray.Enabled = false;
+            this.btnViewArray.Location = new System.Drawing.Point(93, 250);
             this.btnViewArray.Name = "btnViewArray";
             this.btnViewArray.Size = new System.Drawing.Size(125, 23);
             this.btnViewArray.TabIndex = 3;
             this.btnViewArray.Text = "Visualizar Array";
             this.btnViewArray.UseVisualStyleBackColor = true;
+            this.btnViewArray.Click += new System.EventHandler(this.BtnViewArray_Click);
             // 
             // frmCompareOrderings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 289);
+            this.ClientSize = new System.Drawing.Size(650, 285);
             this.ControlBox = false;
             this.Controls.Add(this.btnViewArray);
             this.Controls.Add(this.btnBack);

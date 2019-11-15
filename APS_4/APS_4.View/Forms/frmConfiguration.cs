@@ -93,6 +93,7 @@ namespace APS_4.View.Forms
                         MessageBox.Show("Por favor, informe a quantidade de itens.", "Falta de informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     }
+                    MessageBox.Show($"Seu array automático foi criado com {nudQuantity.Value} posições", "Criação do array", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     FillArray((int)nudQuantity.Value);
                     btnStart.Text = compare;
 

@@ -3,6 +3,7 @@ using APS_4.Model.Module;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -16,6 +17,7 @@ namespace APS_4.View.Forms
     {
         private OrderingAlgorithms _ordering = new OrderingAlgorithms();
         private int[] _notOrdered;
+        private readonly string _path = @"Array.txt";
 
         public frmCompareOrderings(OrderingEntity entity)
         {
@@ -74,6 +76,7 @@ namespace APS_4.View.Forms
 
                 await Task.WhenAll(mergeTask, quickTask, bubbleTask, insertinoTask, selectionTask, shellTask);
                 CompareResult();
+                btnViewArray.Enabled = true;
             }
         }
 
@@ -98,6 +101,19 @@ namespace APS_4.View.Forms
         private void ChangeForeColor(Control oControl)
             => oControl.ForeColor = System.Drawing.Color.ForestGreen;
 
+        private void BuildOrderedFile(int[] numberList)
+        {
+            if (File.Exists(_path))
+                File.Delete(_path);
+
+            using (StreamWriter writer = new StreamWriter(_path))
+                for (int i = 0; i < numberList.Length; i++)
+                    writer.WriteLine(numberList[i].ToString());
+        }
+
+        private void BtnViewArray_Click(object sender, EventArgs e)
+            => Process.Start(_path);
+
 
         #region Ordering methods
 
@@ -117,6 +133,7 @@ namespace APS_4.View.Forms
             entity.Time = time.ElapsedMilliseconds;
             AlterLabelsInfo(lblQuickMoves, "text", entity.Moves.ToString());
             AlterLabelsInfo(lblQuickTime, "text", entity.Time.ToString() + " ms");
+            BuildOrderedFile(entity.NumberList);
         }
 
         private async void MergeSort()
@@ -165,6 +182,8 @@ namespace APS_4.View.Forms
         }
 
         #endregion
+
+
     }
 
     class BoxInfo
