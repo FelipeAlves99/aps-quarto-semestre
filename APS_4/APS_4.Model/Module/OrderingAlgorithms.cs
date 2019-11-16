@@ -14,8 +14,12 @@ namespace APS_4.Model.Module
             _entity = new OrderingEntity();
         }
 
-        public OrderingEntity BubbleSort(OrderingEntity entity)
+        public OrderingEntity BubbleSort(int[] mainArray)
         {
+            var entity = new OrderingEntity();
+            entity.NumberList = new int[mainArray.Length];
+            mainArray.CopyTo(entity.NumberList, 0);
+
             var time = Stopwatch.StartNew();
 
             #region Bubble
@@ -26,7 +30,7 @@ namespace APS_4.Model.Module
             {
                 for (int j = 0; j < i; j++)
                 {
-                    _entity.Moves++;
+                    entity.Moves++;
                     if (entity.NumberList[j] > entity.NumberList[j + 1])
                     {
                         int aux = entity.NumberList[j];
@@ -38,14 +42,17 @@ namespace APS_4.Model.Module
 
             #endregion
 
-            time.Stop();
-            _entity.NumberList = entity.NumberList;
-            _entity.Time = time.ElapsedMilliseconds;
-            return _entity;
+            time.Stop();            
+            entity.Time = time.ElapsedMilliseconds;
+            return entity;
         }
 
-        public OrderingEntity InsertionSort(OrderingEntity entity)
+        public OrderingEntity InsertionSort(int[] mainArray)
         {
+            var entity = new OrderingEntity();
+            entity.NumberList = new int[mainArray.Length];
+            mainArray.CopyTo(entity.NumberList, 0);
+
             var time = Stopwatch.StartNew();
             
             #region Insertion
@@ -70,17 +77,102 @@ namespace APS_4.Model.Module
                     entity.NumberList[j + 1] = entity.NumberList[j];
                     j--;
                     entity.NumberList[j + 1] = key;
-                    _entity.Moves++;
+                    entity.Moves++;
                 }
             }
 
             #endregion
 
             time.Stop();
-            _entity.Time = time.ElapsedMilliseconds;
-            _entity.NumberList = entity.NumberList;
+            entity.Time = time.ElapsedMilliseconds;
 
-            return _entity;
+            return entity;
+        }
+
+        public OrderingEntity SelectionSort(int[] mainArray)
+        {
+            var entity = new OrderingEntity();
+            entity.NumberList = new int[mainArray.Length];
+            mainArray.CopyTo(entity.NumberList, 0);
+
+            var time = Stopwatch.StartNew();
+            int minimum, aux;
+
+            #region Selection
+
+            for (int i = 0; i < entity.NumberList.Length - 1; i++)
+            {
+                minimum = i;
+
+                for (int j = i; j < entity.NumberList.Length; j++)
+                {
+                    entity.Moves++;
+                    if (entity.NumberList[j] < entity.NumberList[minimum])
+                        minimum = j;
+                }
+
+                if (minimum != i)
+                {
+                    aux = entity.NumberList[minimum];
+                    entity.NumberList[minimum] = entity.NumberList[i];
+                    entity.NumberList[i] = aux;
+                    entity.Moves++;
+                }
+            }
+
+            #endregion
+
+            time.Stop();
+            entity.Time = time.ElapsedMilliseconds;
+
+            return entity;
+        }
+
+        public OrderingEntity ShellSort(int[] mainArray)
+        {
+            var entity = new OrderingEntity();
+            entity.NumberList = new int[mainArray.Length];
+            mainArray.CopyTo(entity.NumberList, 0);
+
+            var time = Stopwatch.StartNew();
+
+            #region Shell
+
+            int arraySize = entity.NumberList.Length;
+            int j, value;
+            int gap = 1;
+
+            do
+            {
+                gap = 3 * gap + 1;
+            } while (gap < arraySize);
+
+            do
+            {
+                gap /= 3;
+                for (int i = gap; i < arraySize; i++)
+                {
+                    value = entity.NumberList[i];
+                    j = i - gap;
+
+                    while (j >= 0 && value < entity.NumberList[j])
+                    {
+                        entity.NumberList[j + gap] = entity.NumberList[j];
+                        j -= gap;
+                        entity.Moves++;
+                    }
+                    entity.NumberList[j + gap] = value;
+                    entity.Moves++;
+                }
+                entity.Moves++;
+            } while (gap > 1);
+
+            #endregion
+
+            time.Stop();
+            entity.Time = time.ElapsedMilliseconds;
+
+            return entity;
         }
 
         public int MergeSort(int[] mainArray, int begin, int end)
@@ -173,84 +265,6 @@ namespace APS_4.Model.Module
             return _entity.Moves;
         }
 
-        public OrderingEntity SelectionSort(OrderingEntity entity)
-        {
-            var time = Stopwatch.StartNew();
-            int minimum, aux;
 
-            #region Selection
-
-            for (int i = 0; i < entity.NumberList.Length - 1; i++)
-            {
-                minimum = i;
-
-                for (int j = i; j < entity.NumberList.Length; j++)
-                {
-                    _entity.Moves++;
-                    if (entity.NumberList[j] < entity.NumberList[minimum])
-                        minimum = j;
-                }
-
-                if (minimum != i)
-                {
-                    aux = entity.NumberList[minimum];
-                    entity.NumberList[minimum] = entity.NumberList[i];
-                    entity.NumberList[i] = aux;
-                    _entity.Moves++;
-                }
-            }
-
-            #endregion
-
-            time.Stop();
-            _entity.Time = time.ElapsedMilliseconds;
-            _entity.NumberList = entity.NumberList;
-
-            return _entity;
-        }
-
-        public OrderingEntity ShellSort(OrderingEntity entity)
-        {
-            var time = Stopwatch.StartNew();
-
-            #region Shell
-
-            int arraySize = entity.NumberList.Length;
-            int j, value;
-            int gap = 1;
-
-            do
-            {
-                gap = 3 * gap + 1;
-            } while (gap < arraySize);
-
-            do
-            {
-                gap /= 3;
-                for (int i = gap; i < arraySize; i++)
-                {
-                    value = entity.NumberList[i];
-                    j = i - gap;
-
-                    while (j >= 0 && value < entity.NumberList[j])
-                    {
-                        entity.NumberList[j + gap] = entity.NumberList[j];
-                        j -= gap;
-                        _entity.Moves++;
-                    }
-                    entity.NumberList[j + gap] = value;
-                    _entity.Moves++;
-                }
-                _entity.Moves++;
-            } while (gap > 1);
-
-            #endregion
-
-            time.Stop();
-            _entity.Time = time.ElapsedMilliseconds;
-            _entity.NumberList = entity.NumberList;
-
-            return _entity;
-        }
     }
 }
