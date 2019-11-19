@@ -65,7 +65,7 @@ namespace APS_4.View.Forms
         private void RbAutomatic_CheckedChanged(object sender, EventArgs e)
         {
             ConfigurationAutomaticOption();
-            nudQuantity.Maximum = 1000000;
+            nudQuantity.Maximum = 50000;
         }
 
         private void ConfigurationAutomaticOption()
@@ -230,7 +230,7 @@ namespace APS_4.View.Forms
 
             for (int i = 0; i < _entity.NumberList.Length; i++)
             {
-                _entity.NumberList[i] = randomNumber.Next(0, 10000000);
+                _entity.NumberList[i] = randomNumber.Next(0, 100000);
             }
         }
 
